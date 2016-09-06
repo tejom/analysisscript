@@ -123,13 +123,23 @@ exp_array.sort_by {|r| r[:avg]}.each{ |r|
 
 linux = 0
 windows = 0
+linux_salaries =0
+windows_salaries =0
 numbers.each { |r| 
-	linux += 1 if /linux/i.match r[:desc]
-	windows += 1 if /window/i.match r[:desc]
+	if /linux/i.match r[:desc]
+		linux += 1 
+		linux_salaries += r[:sal]
+	end
+	if /window/i.match r[:desc]
+		windows += 1 
+		windows_salaries += r[:sal]
+	end
 }
 
 puts "linux: #{linux}"
 puts "windows: #{windows}"
+puts "linux: #{linux_salaries/linux}"
+puts "windows: #{windows_salaries/windows}"
 
 eng =0
 eng_total =0
@@ -188,9 +198,9 @@ numbers.each { |r|
 	b = r[:sal]/interval
 	hist_array[b] += 1
 }
-
+#draw graph
 hist_array.each_index { |i| 
- puts "#{i*interval}:\t[#{ 'x' * hist_array[i]}" }
+ puts "#{i*interval} (%#{ ((hist_array[i].to_f/count.to_f)*100).round 2 })\t[#{ 'x' * hist_array[i]}" }
 
 engineer_person =0 
 engineer_person_total = 0
